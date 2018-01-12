@@ -306,11 +306,15 @@ public class WMSHttpHelper extends WMSSourceHelper {
         HttpClient httpClient = getHttpClient();
         
         // prepare the request
-        NameValuePair[] params = new NameValuePair[queryParams.size()];
-        int i = 0;
-        for (Map.Entry<String, String> e : queryParams.entrySet()) {
-            params[i] = new NameValuePair(e.getKey(), e.getValue());
-            i++;
+        NameValuePair[] params;
+
+        if (queryParams != null) {
+            params = new NameValuePair[queryParams.size()];
+            int i = 0;
+            for (Map.Entry<String, String> e : queryParams.entrySet()) {
+                params[i] = new NameValuePair(e.getKey(), e.getValue());
+                i++;
+            }
         }
         
         HttpMethodBase method;
