@@ -1,17 +1,15 @@
 /**
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * This program is free software: you can redistribute it and/or modify it under the terms of the
+ * GNU Lesser General Public License as published by the Free Software Foundation, either version 3
+ * of the License, or (at your option) any later version.
  *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ * <p>This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
  *
- *  You should have received a copy of the GNU Lesser General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ * <p>You should have received a copy of the GNU Lesser General Public License along with this
+ * program. If not, see <http://www.gnu.org/licenses/>.
+ *
  * @author Gabriel Roldan, Boundless Spatial Inc, Copyright 2015
  */
 package org.geowebcache.storage;
@@ -29,10 +27,10 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.google.common.base.Throwables;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
 import org.geowebcache.GeoWebCacheException;
 import org.geowebcache.config.BlobStoreInfo;
 import org.geowebcache.config.ConfigurationException;
@@ -49,8 +47,6 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.rules.TemporaryFolder;
 import org.mockito.ArgumentMatcher;
-
-import com.google.common.base.Throwables;
 
 public class CompositeBlobStoreTest {
 
@@ -72,14 +68,11 @@ public class CompositeBlobStoreTest {
         public boolean matches(Object argument) {
             return !val.equals(argument);
         }
-
     }
 
-    @Rule
-    public TemporaryFolder tmpFolder = new TemporaryFolder();
+    @Rule public TemporaryFolder tmpFolder = new TemporaryFolder();
 
-    @Rule
-    public ExpectedException ex = ExpectedException.none();
+    @Rule public ExpectedException ex = ExpectedException.none();
 
     TileLayerDispatcher layers;
 
@@ -106,13 +99,13 @@ public class CompositeBlobStoreTest {
         configs = new LinkedList<>();
         when(bsa.getBlobStores()).thenReturn(configs);
 
-        when(defaultStorageFinder.getDefaultPath()).thenReturn(
-                tmpFolder.getRoot().getAbsolutePath());
+        when(defaultStorageFinder.getDefaultPath())
+                .thenReturn(tmpFolder.getRoot().getAbsolutePath());
 
         defaultLayer = mock(TileLayer.class);
         when(layers.getTileLayer(eq(DEFAULT_LAYER))).thenReturn(defaultLayer);
-        when(layers.getTileLayer((String) argThat(new NotEq<>(DEFAULT_LAYER)))).thenThrow(
-                new GeoWebCacheException("layer not found"));
+        when(layers.getTileLayer((String) argThat(new NotEq<>(DEFAULT_LAYER))))
+                .thenThrow(new GeoWebCacheException("layer not found"));
     }
 
     private CompositeBlobStore create() throws StorageException, ConfigurationException {
@@ -136,8 +129,10 @@ public class CompositeBlobStoreTest {
     @Test
     public void noExplicitDefaultCreatesLegacyDefaultStore() throws Exception {
         final boolean isDefault = false;
-        configs.add(config("store1", isDefault, true, tmpFolder.newFolder().getAbsolutePath(), 1024));
-        configs.add(config("store2", isDefault, true, tmpFolder.newFolder().getAbsolutePath(), 2048));
+        configs.add(
+                config("store1", isDefault, true, tmpFolder.newFolder().getAbsolutePath(), 1024));
+        configs.add(
+                config("store2", isDefault, true, tmpFolder.newFolder().getAbsolutePath(), 2048));
 
         store = create();
 
@@ -153,8 +148,10 @@ public class CompositeBlobStoreTest {
     public void duplicateDefaultStoreFails() throws Exception {
 
         final boolean isDefault = true;
-        configs.add(config("store1", isDefault, true, tmpFolder.newFolder().getAbsolutePath(), 1024));
-        configs.add(config("store2", isDefault, true, tmpFolder.newFolder().getAbsolutePath(), 2048));
+        configs.add(
+                config("store1", isDefault, true, tmpFolder.newFolder().getAbsolutePath(), 1024));
+        configs.add(
+                config("store2", isDefault, true, tmpFolder.newFolder().getAbsolutePath(), 2048));
 
         ex.expect(ConfigurationException.class);
         ex.expectMessage("Duplicate default blob store");
@@ -186,8 +183,13 @@ public class CompositeBlobStoreTest {
     public void defaultAndDisaledFails() throws Exception {
         boolean isDefault = true;
         boolean enabled = false;
-        configs.add(config("storeId", isDefault, enabled, tmpFolder.newFolder().getAbsolutePath(),
-                1024));
+        configs.add(
+                config(
+                        "storeId",
+                        isDefault,
+                        enabled,
+                        tmpFolder.newFolder().getAbsolutePath(),
+                        1024));
 
         ex.expect(ConfigurationException.class);
         ex.expectMessage("The default blob store can't be disabled");
@@ -197,7 +199,8 @@ public class CompositeBlobStoreTest {
     @Test
     public void disabledStoreHasNoLiveInstance() throws Exception {
         boolean enabled = false;
-        configs.add(config("storeId", false, enabled, tmpFolder.newFolder().getAbsolutePath(), 1024));
+        configs.add(
+                config("storeId", false, enabled, tmpFolder.newFolder().getAbsolutePath(), 1024));
 
         store = create();
         assertNotNull(store.blobStores.get("storeId"));
@@ -216,17 +219,23 @@ public class CompositeBlobStoreTest {
 
     @Test
     public void configuredDefaultRespectedAndNoLegacyDefaultCreated() throws Exception {
-        configs.add(config("some-other", false /* isDefault */, true, tmpFolder.newFolder()
-                .getAbsolutePath(), 1024));
-        FileBlobStoreInfo defaultStore = config("default-store", true, true, tmpFolder
-                .newFolder().getAbsolutePath(), 1024);
+        configs.add(
+                config(
+                        "some-other",
+                        false /* isDefault */,
+                        true,
+                        tmpFolder.newFolder().getAbsolutePath(),
+                        1024));
+        FileBlobStoreInfo defaultStore =
+                config("default-store", true, true, tmpFolder.newFolder().getAbsolutePath(), 1024);
         configs.add(defaultStore);
 
         store = create();
         // defaultStore is cached twice, with its own id for when layers refers to it explicitly,
         // and as CompositeBlobStore.DEFAULT_STORE_DEFAULT_ID for layers that do not specify a blob
         // store
-        assertSame(defaultStore,
+        assertSame(
+                defaultStore,
                 store.blobStores.get(CompositeBlobStore.DEFAULT_STORE_DEFAULT_ID).config);
         assertSame(defaultStore, store.blobStores.get("default-store").config);
         assertEquals(3, store.blobStores.size());
@@ -275,8 +284,8 @@ public class CompositeBlobStoreTest {
     @Test
     public void getTileDisabledStore() throws Exception {
         boolean isEnabled = false;
-        configs.add(config("store1", false, isEnabled, tmpFolder.newFolder().getAbsolutePath(),
-                1024));
+        configs.add(
+                config("store1", false, isEnabled, tmpFolder.newFolder().getAbsolutePath(), 1024));
 
         store = create();
 
@@ -288,8 +297,12 @@ public class CompositeBlobStoreTest {
         store.get(tile);
     }
 
-    private FileBlobStoreInfo config(String id, boolean isDefault, boolean isEnabled,
-            String baseDirectory, int fileSystemBlockSize) {
+    private FileBlobStoreInfo config(
+            String id,
+            boolean isDefault,
+            boolean isEnabled,
+            String baseDirectory,
+            int fileSystemBlockSize) {
         FileBlobStoreInfo c = new FileBlobStoreInfo(id);
         c.setDefault(isDefault);
         c.setEnabled(isEnabled);
@@ -302,13 +315,19 @@ public class CompositeBlobStoreTest {
         return queryTile(DEFAULT_LAYER, DEFAULT_GRIDSET, DEFAULT_FORMAT, x, y, z);
     }
 
-    private TileObject queryTile(String layer, String gridset, String extension, long x, long y,
-            int z) {
+    private TileObject queryTile(
+            String layer, String gridset, String extension, long x, long y, int z) {
         return queryTile(layer, gridset, extension, x, y, z, (Map<String, String>) null);
     }
 
-    private TileObject queryTile(String layer, String gridset, String extension, long x, long y,
-            int z, Map<String, String> parameters) {
+    private TileObject queryTile(
+            String layer,
+            String gridset,
+            String extension,
+            long x,
+            long y,
+            int z,
+            Map<String, String> parameters) {
 
         String format;
         try {
@@ -317,9 +336,9 @@ public class CompositeBlobStoreTest {
             throw Throwables.propagate(e);
         }
 
-        TileObject tile = TileObject.createQueryTileObject(layer, new long[] { x, y, z }, gridset,
-                format, parameters);
+        TileObject tile =
+                TileObject.createQueryTileObject(
+                        layer, new long[] {x, y, z}, gridset, format, parameters);
         return tile;
     }
-
 }
