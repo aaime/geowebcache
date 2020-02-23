@@ -73,20 +73,12 @@ public class TransientCache {
         this.expireDelay = expireDelay;
     }
 
-    /**
-     * Count of cached resources. May include expired resources not yet cleared.
-     *
-     * @return
-     */
+    /** Count of cached resources. May include expired resources not yet cleared. */
     public int size() {
         return cache.size();
     }
 
-    /**
-     * The currently used storage. May include expired resources not yet cleared.
-     *
-     * @return
-     */
+    /** The currently used storage. May include expired resources not yet cleared. */
     public long storageSize() {
         return currentStorage;
     }
@@ -112,7 +104,6 @@ public class TransientCache {
     /**
      * Retrieve a resource
      *
-     * @param key
      * @return The resource cached under the given key, or null if no resource is cached.
      */
     public Resource get(String key) {
@@ -130,11 +121,7 @@ public class TransientCache {
         return null;
     }
 
-    /**
-     * A timestamp in milliseconds
-     *
-     * @return
-     */
+    /** A timestamp in milliseconds */
     protected long currentTime() {
         return ticker.read() / 1000;
     }
@@ -179,11 +166,7 @@ public class TransientCache {
         }
     }
 
-    /**
-     * Set a time source for computing expiry.
-     *
-     * @param ticker
-     */
+    /** Set a time source for computing expiry. */
     public void setTicker(Ticker ticker) {
         Preconditions.checkNotNull(ticker);
         this.ticker = ticker;

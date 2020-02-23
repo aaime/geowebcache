@@ -130,17 +130,7 @@ public class WMSLayer extends AbstractTileLayer implements ProxyLayer {
     /**
      * Note XStream uses reflection, this is only used for testing and loading from getCapabilities
      *
-     * @param layerName
-     * @param wmsURL
-     * @param wmsStyles
-     * @param wmsLayers
-     * @param mimeFormats
-     * @param subSets
      * @param parameterFilters<
-     * @param metaWidthHeight
-     * @param vendorParams
-     * @param queryable
-     * @param wmsQueryLayers
      */
     public WMSLayer(
             String layerName,
@@ -260,7 +250,6 @@ public class WMSLayer extends AbstractTileLayer implements ProxyLayer {
      *
      * @param tile The tile request
      * @return The resulting tile request
-     * @throws OutsideCoverageException
      */
     public ConveyorTile getTile(ConveyorTile tile)
             throws GeoWebCacheException, IOException, OutsideCoverageException {
@@ -322,7 +311,6 @@ public class WMSLayer extends AbstractTileLayer implements ProxyLayer {
      *
      * @param tile the Tile with all the information
      * @param tryCache whether to try the cache, or seed
-     * @throws GeoWebCacheException
      */
     private ConveyorTile getMetatilingReponse(ConveyorTile tile, boolean tryCache)
             throws GeoWebCacheException {
@@ -436,7 +424,6 @@ public class WMSLayer extends AbstractTileLayer implements ProxyLayer {
      *
      * @param tile the Tile with all the information
      * @param tryCache whether to try the cache, or seed
-     * @throws GeoWebCacheException
      */
     private ConveyorTile getNonMetatilingReponse(ConveyorTile tile, boolean tryCache)
             throws GeoWebCacheException {

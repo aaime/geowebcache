@@ -37,7 +37,6 @@ public class FilePathFilter implements FilenameFilter {
      * Create a filter for stored tiles that are within a particular range.
      *
      * @param trObj the range to find
-     * @throws StorageException
      */
     public FilePathFilter(TileRange trObj) throws StorageException {
         this.tr = trObj;

@@ -115,14 +115,7 @@ public class LayerCacheInfoBuilderTest extends TestCase {
      *
      * assertEquals(0L, usedQuota.difference(expectedUsedQuota).getBytes().longValue()); }
      */
-    /**
-     * Seeds {@code numFiles} fake tiles of {@code fileSize} each at random tile indices
-     *
-     * @param layer
-     * @param numFiles
-     * @throws MimeException
-     * @throws IOException
-     */
+    /** Seeds {@code numFiles} fake tiles of {@code fileSize} each at random tile indices */
     private void mockSeed(TileLayer layer, int numFiles, int fileSize)
             throws MimeException, IOException {
         final String layerName = layer.getName();

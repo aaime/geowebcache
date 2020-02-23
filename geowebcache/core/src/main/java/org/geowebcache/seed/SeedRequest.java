@@ -67,7 +67,6 @@ public class SeedRequest {
      * @param zoomStart the zoom start level for this seed request
      * @param zoomStop the zoom stop level for this seed request
      * @param mimeFormat the MIME format requested
-     * @param type
      */
     public SeedRequest(
             String layerName,
@@ -108,11 +107,7 @@ public class SeedRequest {
         return this.bounds;
     }
 
-    /**
-     * Whether any request filters should be updated after this seed request completes.
-     *
-     * @return
-     */
+    /** Whether any request filters should be updated after this seed request completes. */
     public boolean getFilterUpdate() {
         if (filterUpdate != null) {
             return filterUpdate;
@@ -139,11 +134,7 @@ public class SeedRequest {
         return this.format;
     }
 
-    /**
-     * Used to handle 1.1.x-style seed requests
-     *
-     * @return
-     */
+    /** Used to handle 1.1.x-style seed requests */
     public SRS getSRS() {
         return this.srs;
     }

@@ -41,10 +41,7 @@ public abstract class ParameterFilter implements Serializable, Cloneable {
         // Empty for XStream
     }
 
-    /**
-     * @param key
-     * @param defaultValue
-     */
+    /** */
     public ParameterFilter(String key, @Nullable String defaultValue) {
         Preconditions.checkNotNull(key);
         Preconditions.checkArgument(!key.isEmpty(), "Parameter key must not be empty.");
@@ -57,20 +54,12 @@ public abstract class ParameterFilter implements Serializable, Cloneable {
         this(key, "");
     }
 
-    /**
-     * Get the key of the parameter to filter.
-     *
-     * @return
-     */
+    /** Get the key of the parameter to filter. */
     public String getKey() {
         return key;
     }
 
-    /**
-     * Get the default value to use if the parameter is not specified.
-     *
-     * @return
-     */
+    /** Get the default value to use if the parameter is not specified. */
     public String getDefaultValue() {
         if (defaultValue == null) return "";
         return defaultValue;
@@ -154,13 +143,7 @@ public abstract class ParameterFilter implements Serializable, Cloneable {
         return this;
     }
 
-    /**
-     * Is the given value exactly a value that could be produced by the filter.
-     *
-     * @param value
-     * @return
-     * @throws ParameterException
-     */
+    /** Is the given value exactly a value that could be produced by the filter. */
     public boolean isFilteredValue(final String value) {
         if (Objects.equal(value, this.getDefaultValue())) {
             return true;

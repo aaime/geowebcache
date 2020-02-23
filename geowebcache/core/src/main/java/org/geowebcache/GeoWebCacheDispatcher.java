@@ -96,12 +96,7 @@ public class GeoWebCacheDispatcher extends AbstractController {
 
     private SecurityDispatcher securityDispatcher;
 
-    /**
-     * Should be invoked through Spring
-     *
-     * @param tileLayerDispatcher
-     * @param gridSetBroker
-     */
+    /** Should be invoked through Spring */
     public GeoWebCacheDispatcher(
             TileLayerDispatcher tileLayerDispatcher,
             GridSetBroker gridSetBroker,
@@ -136,8 +131,6 @@ public class GeoWebCacheDispatcher extends AbstractController {
     /**
      * GeoServer and other solutions that embedded this dispatcher will prepend a path, this is used
      * to remove it.
-     *
-     * @param servletPrefix
      */
     public void setServletPrefix(String servletPrefix) {
         if (!servletPrefix.startsWith("/")) {
@@ -162,8 +155,6 @@ public class GeoWebCacheDispatcher extends AbstractController {
      *
      * <p>The application context is scanned for objects extending Service, thereby making it easy
      * to add new services.
-     *
-     * @return
      */
     private Map<String, Service> loadServices() {
         log.info("Loading GWC Service extensions...");
@@ -359,7 +350,6 @@ public class GeoWebCacheDispatcher extends AbstractController {
     /**
      * Essentially this slices away the prefix, leaving type and request
      *
-     * @param servletPath
      * @return {type, service}ervletPrefix
      */
     private String[] parseRequest(String servletPath) throws GeoWebCacheException {
@@ -377,13 +367,7 @@ public class GeoWebCacheDispatcher extends AbstractController {
         return retStrs;
     }
 
-    /**
-     * This is the main method for handling service requests. See comments in the code.
-     *
-     * @param request
-     * @param response
-     * @throws Exception
-     */
+    /** This is the main method for handling service requests. See comments in the code. */
     private void handleServiceRequest(
             String serviceStr, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -439,7 +423,6 @@ public class GeoWebCacheDispatcher extends AbstractController {
      * Helper function for looking up the service that should handle the request.
      *
      * @param serviceStr name of the service
-     * @return
      */
     private Service findService(String serviceStr) throws GeoWebCacheException {
         if (this.services == null) {
@@ -460,12 +443,7 @@ public class GeoWebCacheDispatcher extends AbstractController {
         return service;
     }
 
-    /**
-     * Create a minimalistic frontpage
-     *
-     * @param request
-     * @param response
-     */
+    /** Create a minimalistic frontpage */
     private void handleFrontPage(HttpServletRequest request, HttpServletResponse response) {
 
         String baseUrl = null;
@@ -725,11 +703,7 @@ public class GeoWebCacheDispatcher extends AbstractController {
         return securityDispatcher;
     }
 
-    /**
-     * Set the security dispatcher to use to test service requests.
-     *
-     * @param secDispatcher
-     */
+    /** Set the security dispatcher to use to test service requests. */
     public void setSecurityDispatcher(SecurityDispatcher secDispatcher) {
         this.securityDispatcher = secDispatcher;
     }

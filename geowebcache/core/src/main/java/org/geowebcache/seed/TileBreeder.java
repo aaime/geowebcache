@@ -194,13 +194,7 @@ public class TileBreeder implements ApplicationContextAware {
         return defaultVal;
     }
 
-    /**
-     * Create and dispatch tasks to fulfil a seed request
-     *
-     * @param layerName
-     * @param sr
-     * @throws GeoWebCacheException
-     */
+    /** Create and dispatch tasks to fulfil a seed request */
     // TODO: The SeedRequest specifies a layer name. Would it make sense to use that instead of
     // including one as a separate parameter?
     public void seed(final String layerName, final SeedRequest sr) throws GeoWebCacheException {
@@ -224,7 +218,6 @@ public class TileBreeder implements ApplicationContextAware {
      * @param threadCount The number of threads to use, forced to 1 if type is TRUNCATE
      * @param filterUpdate // TODO: What does this do?
      * @return Array of tasks. Will have length threadCount or 1.
-     * @throws GeoWebCacheException
      */
     public GWCTask[] createTasks(
             TileRange tr, GWCTask.TYPE type, int threadCount, boolean filterUpdate)
@@ -245,7 +238,6 @@ public class TileBreeder implements ApplicationContextAware {
      * @param threadCount The number of threads to use, forced to 1 if type is TRUNCATE
      * @param filterUpdate // TODO: What does this do?
      * @return Array of tasks. Will have length threadCount or 1.
-     * @throws GeoWebCacheException
      */
     public GWCTask[] createTasks(
             TileRange tr, TileLayer tl, GWCTask.TYPE type, int threadCount, boolean filterUpdate)
@@ -280,11 +272,7 @@ public class TileBreeder implements ApplicationContextAware {
         return tasks;
     }
 
-    /**
-     * Dispatches tasks
-     *
-     * @param tasks
-     */
+    /** Dispatches tasks */
     public void dispatchTasks(GWCTask[] tasks) {
         lock.writeLock().lock();
         try {
@@ -305,14 +293,7 @@ public class TileBreeder implements ApplicationContextAware {
         }
     }
 
-    /**
-     * Find the tile range for a Seed Request.
-     *
-     * @param req
-     * @param tl
-     * @return
-     * @throws GeoWebCacheException
-     */
+    /** Find the tile range for a Seed Request. */
     public static TileRange createTileRange(SeedRequest req, TileLayer tl)
             throws GeoWebCacheException {
         int zoomStart = req.getZoomStart().intValue();
@@ -381,9 +362,6 @@ public class TileBreeder implements ApplicationContextAware {
      * @param type the type, SEED or RESEED
      * @param trIter a collection of tile ranges
      * @param tl the layer
-     * @param doFilterUpdate
-     * @return
-     * @throws IllegalArgumentException
      */
     private GWCTask createSeedTask(
             TYPE type, TileRangeIterator trIter, TileLayer tl, boolean doFilterUpdate)
@@ -425,7 +403,6 @@ public class TileBreeder implements ApplicationContextAware {
      *     where {@code taskStatus} is one of: {@code 0 = PENDING, 1 = RUNNING, 2 = DONE, -1 =
      *     ABORTED}
      * @param layerName the name of the layer. null for all layers.
-     * @return
      */
     public long[][] getStatusList(final String layerName) {
         List<long[]> list = new ArrayList<long[]>(currentPool.size());
@@ -508,8 +485,6 @@ public class TileBreeder implements ApplicationContextAware {
     /**
      * Find a layer by name.
      *
-     * @param layerName
-     * @return
      * @throws GeoWebCacheException if the layer is not found
      */
     public TileLayer findTileLayer(String layerName) throws GeoWebCacheException {
@@ -524,31 +499,19 @@ public class TileBreeder implements ApplicationContextAware {
         return layer;
     }
 
-    /**
-     * Get all tasks that are running
-     *
-     * @return
-     */
+    /** Get all tasks that are running */
     public Iterator<GWCTask> getRunningTasks() {
         drain();
         return filterTasks(STATE.RUNNING);
     }
 
-    /**
-     * Get all tasks that are running or waiting to run.
-     *
-     * @return
-     */
+    /** Get all tasks that are running or waiting to run. */
     public Iterator<GWCTask> getRunningAndPendingTasks() {
         drain();
         return filterTasks(STATE.READY, STATE.UNSET, STATE.RUNNING);
     }
 
-    /**
-     * Get all tasks that are waiting to run.
-     *
-     * @return
-     */
+    /** Get all tasks that are waiting to run. */
     public Iterator<GWCTask> getPendingTasks() {
         drain();
         return filterTasks(STATE.READY, STATE.UNSET);
@@ -558,7 +521,6 @@ public class TileBreeder implements ApplicationContextAware {
      * Return all current tasks that are in the specified states
      *
      * @param filter the states to filter for
-     * @return
      */
     private Iterator<GWCTask> filterTasks(STATE... filter) {
         Set<STATE> states = new HashSet<STATE>(Arrays.asList(filter));
@@ -578,12 +540,7 @@ public class TileBreeder implements ApplicationContextAware {
         return runningTasks.iterator();
     }
 
-    /**
-     * Terminate a running or pending task
-     *
-     * @param id
-     * @return
-     */
+    /** Terminate a running or pending task */
     public boolean terminateGWCTask(final long id) {
         SubmittedTask submittedTask = this.currentPool.remove(Long.valueOf(id));
         if (submittedTask == null) {
@@ -594,11 +551,7 @@ public class TileBreeder implements ApplicationContextAware {
         return true;
     }
 
-    /**
-     * Get an iterator over the layers.
-     *
-     * @return
-     */
+    /** Get an iterator over the layers. */
     public Iterable<TileLayer> getLayers() {
         return this.layerDispatcher.getLayerList();
     }

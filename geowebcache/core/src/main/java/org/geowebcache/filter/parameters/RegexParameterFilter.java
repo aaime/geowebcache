@@ -39,12 +39,7 @@ public class RegexParameterFilter extends CaseNormalizingParameterFilter {
         super();
     }
 
-    /**
-     * Get a {@link Matcher} for this filter's regexp against the given string.
-     *
-     * @param value
-     * @return
-     */
+    /** Get a {@link Matcher} for this filter's regexp against the given string. */
     public synchronized Matcher getMatcher(String value) {
         return pat.matcher(value);
     }
