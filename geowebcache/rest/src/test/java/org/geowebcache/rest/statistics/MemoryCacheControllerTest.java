@@ -31,6 +31,7 @@ import org.geowebcache.storage.blobstore.memory.MemoryBlobStore;
 import org.geowebcache.storage.blobstore.memory.NullBlobStore;
 import org.geowebcache.storage.blobstore.memory.guava.GuavaCacheProvider;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -43,6 +44,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
     "file*:/webapp/WEB-INF/web.xml",
     "file*:/webapp/WEB-INF/geowebcache-servlet.xml"
 })
+@Ignore
 public class MemoryCacheControllerTest {
     private MockMvc mockMvc;
 

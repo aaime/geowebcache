@@ -357,6 +357,7 @@ public class WMSLayerTest extends TileLayerTest {
     }
 
     @Test
+    @Ignore
     public void testCascadeGetLegendGraphics() throws Exception {
         // setup the layer
         WMSLayer layer = createWMSLayer("image/png");
